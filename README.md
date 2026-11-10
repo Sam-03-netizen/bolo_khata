@@ -1,102 +1,357 @@
-# Bolo Khata (বলো খাতা / बोलो खाता)
+# Bolo Khata (বলো খাতা \| बोलो खाता)
 
-A **voice-first smart-shop assistant** for small shopkeepers, in **Hindi and Bengali**. Billing, customer credit (Baki), stock, WhatsApp messages and a simple demand forecast all work together, and you run them by speaking.
+### A voice-first smart shop assistant for India's small retailers.
 
-Built for the **Great Indian AI Internship Challenge** with Gnani AI's **Prisma** (speech to text) and **Timbre** (text to speech).
+**Speak. Record. Manage your shop.**
 
-## One sentence, everything updates
+Bolo Khata is a bilingual, voice-first shop management application
+designed to help small retailers manage customer credit (Baki), billing,
+inventory and sales records using natural spoken commands in **Bengali
+and Hindi**.
 
-> "রমেশকে ৩টা সাবানের ৫০০ টাকার বিল বানাও, ৩০০ টাকা দিয়েছে"
+Instead of navigating multiple screens or manually maintaining separate
+notebooks, shopkeepers can speak a transaction and let the application
+process the corresponding updates.
 
-1. The soap stock goes from 10 to 7.
-2. A bill for ₹500 is saved, with ₹300 paid.
-3. The unpaid ₹200 goes into Ramesh's khata (Baki).
-4. A WhatsApp message is ready: total ₹500, paid ₹300, balance ₹200.
-5. The app speaks the result back.
+Built for the **Great Indian AI Internship Challenge**, using Gnani AI's
+Prisma Speech-to-Text and Timbre Text-to-Speech models.
 
-## Two tabs
+------------------------------------------------------------------------
 
-**Khata (Baki)**: who owes what, repayments, undo / redo / archive and restore, WhatsApp payment reminders (or a thank-you when everything is paid), and a saved phone number per customer so WhatsApp opens the right chat.
+## Demo
 
-**Shop (stock and bills)**:
-- Product list with prices (edit a price by tapping it) and stock levels
-- Voice billing, with partial payment and a spoken bill total ("৫০০ টাকার বিল")
-- Stock goes down on every bill and up on every purchase (voice or the ＋ button, with optional cost)
-- Low-stock warnings on screen and spoken after a bill
-- Sales reports for today, the last 7 days and the last 30 days, with a 14-day bar chart
-- Purchase, sales, stock-change and khata records, downloadable as Excel-ready CSV
-- Demand forecast per product and per category (see below)
+🎥 **Project Demo:** \[Add your demo video link here\]
 
-## Things you can say
+💻 **Source Code:** https://github.com/Sam-03-netizen/bolo_khata
 
-| Say | Result |
-|---|---|
-| "রমেশকে পাঁচশো টাকা ধার দিলাম" | Adds udhaar |
-| "রমেশ ২০০ টাকা ফেরত দিয়েছে" | Records a repayment |
-| "রমেশকে ২ কেজি চাল আর ১ লিটার তেলের বিল বানাও" | Bill, stock down, WhatsApp bill |
-| "…ধারে বিল বানাও" | Whole bill goes to the khata |
-| "চাল ৫০ কেজি এসেছে ২০০০ টাকায়" | Purchase record, stock up |
-| "সাবানের স্টক কত" | Stock, last-30-day sales, days left, what to order and when |
-| "এই মাসের বিক্রি কত" | Sales report |
-| "মীরাকে মেসেজ পাঠাও" | Reminder or thank-you, ready for WhatsApp |
-| "ভুল হয়েছে, মুছে দাও" | Undo the last khata entry |
+------------------------------------------------------------------------
 
-The same works in Hindi ("रमेश को 2 किलो चावल का बिल बनाओ", "साबुन का स्टॉक कितना है"). Choose the language with the toggle at the top.
+## The Problem
 
-**Hands-free mode** (🎧) keeps listening: press once and keep talking. It learns the background noise, so steady shop noise is ignored.
+Many small retailers in India manage their daily operations through
+handwritten notebooks, calculators and memory.
 
-## About the forecast
+This creates several challenges:
 
-The forecast is a **statistical estimate**, not a neural network and not a guarantee. For each product it uses the last 30 days of your bills: recent days count more, and weekday patterns (for example busier weekends) are applied. From that it shows the expected sales for the next 7 days, how many days the current stock will last, and what to reorder and when (two weeks of cover, minus a supplier lead time of `LEAD_DAYS`).
+-   Customer credit and repayment records can become difficult to track.
+-   Manual billing takes time during busy hours.
+-   Inventory records are not always updated immediately after a sale.
+-   Payment reminders require additional effort.
+-   Shopkeepers may not have access to accessible, language-friendly
+    digital tools.
 
-A new shop has no history, so the forecast fills in as bills are saved. The **demo sales data** button adds 30 days of *made-up* sales (clearly marked, removable) so the feature can be shown.
+Typing every transaction into a conventional application can also
+interrupt their workflow.
 
-## Built with
+## The Solution
 
-Gnani Prisma v3.0 (`/stt/v3`) and Timbre v2.5, Python, Flask, SQLite, and plain HTML, CSS and JavaScript.
+Bolo Khata brings these everyday operations together through a
+voice-first interface.
 
-## Run it
+A shopkeeper can speak in Bengali or Hindi to record credit, receive
+payments, generate bills, update stock, check sales and prepare customer
+messages.
 
-You need Python 3.10+ and a Gnani API key from [app.gnani.ai](https://app.gnani.ai).
+### The central workflow
 
-```bash
-git clone <this-repo-url>
-cd bolo-khata
+Consider this Bengali command:
+
+> রমেশকে ৩টা সাবানের ৫০০ টাকার বিল বানাও, ৩০০ টাকা দিয়েছে।
+
+Meaning: Create a ₹500 bill for Ramesh for three soaps; he has paid
+₹300.
+
+The application processes the transaction:
+
+  Operation                   Result
+  --------------------- ------------
+  Bill generated                ₹500
+  Payment received              ₹300
+  Outstanding balance           ₹200
+  Soap inventory             40 → 37
+  Customer khata          ₹200 added
+
+The unpaid amount is recorded in the customer's credit ledger, and a
+formatted WhatsApp bill is prepared for review and sending.
+
+**One spoken transaction updates multiple parts of the shop's records.**
+
+------------------------------------------------------------------------
+
+## Key Features
+
+### 1. Voice-first interaction
+
+-   Speech-to-text integration using Gnani AI Prisma v3.0.
+-   Spoken responses using Gnani AI Timbre v2.5.
+-   Bengali and Hindi language support.
+-   Hands-free listening mode.
+-   Typed command input as an alternative to voice.
+
+### 2. Customer Khata (Baki Management)
+
+-   Record customer credit and repayments.
+-   View outstanding customer balances.
+-   Track daily credit and repayment totals.
+-   Undo and redo individual khata entries.
+-   Archive and restore khata records.
+-   Save customer phone numbers.
+-   Prepare WhatsApp payment reminders and payment confirmations.
+
+### 3. Billing and Inventory Management
+
+-   Maintain a product catalogue with prices and stock levels.
+-   Generate bills through voice commands.
+-   Support partial payments.
+-   Automatically reduce inventory after billing.
+-   Record outstanding bill amounts in customer khata.
+-   Add stock through purchases or manual stock adjustments.
+-   Display low-stock warnings.
+-   Prepare itemised WhatsApp bills.
+
+### 4. Sales and Purchase Records
+
+-   Daily, weekly and monthly sales reports.
+-   Track received payments and outstanding sales amounts.
+-   View frequently sold products.
+-   Maintain purchase and stock-change records.
+-   Export sales, purchases, stock logs and khata records as CSV files
+    compatible with spreadsheet applications.
+
+### 5. Demand Forecasting
+
+Bolo Khata includes a basic statistical demand forecasting module.
+
+It uses: - Historical sales from the previous 30 days. -
+Recency-weighted sales estimates. - Weekday sales patterns. - Current
+inventory levels. - Configurable supplier lead time.
+
+It estimates upcoming seven-day demand and provides stock coverage and
+reorder suggestions.
+
+**Important:** This is a statistical forecasting approach, not a trained
+machine-learning model. Its reliability depends on the availability and
+quality of historical sales data.
+
+A clearly labelled demo-data feature is available to demonstrate the
+forecasting functionality.
+
+------------------------------------------------------------------------
+
+## Technology Stack
+
+  Component              Technology
+  ---------------------- ------------------------
+  Backend                Python, Flask
+  Frontend               HTML, CSS, JavaScript
+  Database               SQLite
+  Speech-to-Text         Gnani AI Prisma v3.0
+  Text-to-Speech         Gnani AI Timbre v2.5
+  Data Export            Python CSV
+  External Integration   WhatsApp click-to-chat
+
+### Architecture
+
+1.  The user speaks through the browser microphone.
+2.  Audio is sent to the Flask backend.
+3.  Gnani Prisma converts speech into text.
+4.  The command parser identifies the intended operation.
+5.  Flask processes the transaction using the ledger and shop modules.
+6.  SQLite stores the corresponding records.
+7.  The backend prepares a response and requests speech generation from
+    Gnani Timbre.
+8.  The frontend displays the result and plays the spoken response when
+    audio is available.
+9.  If applicable, a WhatsApp message is prepared for the user to review
+    and send.
+
+------------------------------------------------------------------------
+
+## Project Structure
+
+``` text
+bolo-khata/
+│
+├── app.py                  # Flask application and API routes
+├── ledger.py               # Customer credit ledger
+├── nlu.py                  # Command parsing for khata operations
+├── shop.py                 # Billing, inventory, reports and forecasting
+├── stt.py                  # Gnani Prisma integration
+├── tts.py                  # Gnani Timbre integration
+│
+├── templates/
+│   └── index.html          # Frontend interface
+│
+├── .env.example            # Environment variable template
+├── .gitignore
+├── requirements.txt
+├── README.md
+└── PITCH.md
+```
+
+------------------------------------------------------------------------
+
+## Getting Started
+
+### Prerequisites
+
+-   Python 3.10 or later.
+-   A Gnani AI API key.
+-   A modern browser with microphone support.
+
+### 1. Clone the repository
+
+``` bash
+git clone https://github.com/Sam-03-netizen/bolo_khata.git
+cd bolo_khata
+```
+
+### 2. Create a virtual environment
+
+Windows:
+
+``` bash
 python -m venv venv
-# Windows: venv\Scripts\activate     Mac/Linux: source venv/bin/activate
+venv\Scripts\activate
+```
+
+Linux/macOS:
+
+``` bash
+python -m venv venv
+source venv/bin/activate
+```
+
+### 3. Install dependencies
+
+``` bash
 pip install -r requirements.txt
 ```
 
-Copy `.env.example` to `.env` and paste your key. Then:
+### 4. Configure environment variables
 
-```bash
+Copy `.env.example` to `.env` and add your Gnani API key.
+
+``` env
+GNANI_API_KEY=your_gnani_api_key
+
+SHOP_NAME=My Shop
+LEAD_DAYS=3
+```
+
+Keep your API key private. Never commit your `.env` file.
+
+### 5. Run the application
+
+``` bash
 python app.py
 ```
 
-Open <http://localhost:5000> in Chrome and allow the microphone.
+Open:
 
-## Files
-
-```
-app.py        server, replies, routes          shop.py     products, bills, stock, reports, forecast
-nlu.py        understands khata sentences      ledger.py   khata database (nothing is ever really deleted)
-stt.py        Prisma speech to text            tts.py      Timbre text to speech
-templates/index.html   the page (tabs, tables, hands-free, charts)
+``` text
+http://localhost:5000
 ```
 
-## Known limitations
+Allow microphone access when prompted.
 
-- Names are matched by spelling within one script: "রমেশ" and "रमेश" are different people. Use one language per session.
-- Typed input expects digits ("500"); voice input returns digits automatically.
-- Sentences are understood by keyword rules. Say the customer's name first, then the items and amounts. Products you add yourself are matched by their exact name.
-- A spoken bill total replaces the catalogue prices; the WhatsApp bill shows the difference as an "adjustment" line.
-- WhatsApp opens with the message ready; **you tap Send**. Sending silently needs the paid WhatsApp Business API.
-- Selling more than the stock shows does not block the bill; stock goes to zero and a warning appears.
-- No login and a single local database: this is a demo, not a production system.
-- Noisy-shop accuracy has not been formally measured.
+For deployed use, microphone access requires a secure HTTPS origin.
 
-## Security
+------------------------------------------------------------------------
 
-Never commit `.env` or your API key. `.gitignore` already excludes `.env`, `venv/` and `khata.db`. If a key is ever exposed, revoke it in the Gnani dashboard and make a new one.
+## Example Commands
 
-Built by **Samriddhi Bhowmik** · `#GnaniAI` `#GreatIndianAIInternshipChallenge`
+  Language   Example command                Operation
+  ---------- ------------------------------ -------------------
+  Bengali    রমেশকে পাঁচশো টাকা ধার দিলাম    Record credit
+  Bengali    রমেশ ২০০ টাকা ফেরত দিয়েছে      Record repayment
+  Bengali    রমেশকে ৩টা সাবানের বিল বানাও   Generate bill
+  Bengali    সাবানের স্টক কত                 Check inventory
+  Bengali    এই মাসের বিক্রি কত              View sales report
+  Hindi      रमेश को पाँच सौ रुपये उधार दिया    Record credit
+  Hindi      साबुन का स्टॉक कितना है           Check inventory
+  Hindi      इस महीने की बिक्री कितनी है       View sales report
+
+Command understanding currently uses keyword-based rules and supported
+sentence patterns. Results may vary with phrasing, pronunciation and
+customer-name recognition.
+
+------------------------------------------------------------------------
+
+## Limitations
+
+Bolo Khata is a functional prototype, not a production-ready retail
+management system.
+
+The current implementation has the following limitations:
+
+1.  **Command understanding:** Uses rule-based parsing rather than a
+    general-purpose conversational language model. Commands should
+    follow supported patterns.
+2.  **Name recognition:** Bengali and Devanagari names are not
+    automatically treated as identical identities. Names may need to be
+    entered consistently in one script.
+3.  **Forecasting:** Predictions depend on historical sales. New shops
+    may not have sufficient data for meaningful estimates.
+4.  **WhatsApp:** Messages are prepared using WhatsApp click-to-chat.
+    The shopkeeper must review and manually send them. Automated sending
+    is not implemented.
+5.  **Data storage:** Uses a local SQLite database and does not
+    currently provide multi-user cloud synchronisation.
+6.  **Authentication:** Shop-owner login, role-based permissions and
+    multi-shop account management are not implemented.
+7.  **Speech recognition:** Performance in noisy real-world retail
+    environments has not been formally benchmarked.
+8.  **Transaction recovery:** Undo and redo functionality currently
+    applies to khata entries, not as a universal rollback mechanism for
+    all billing and inventory operations.
+9.  **Security:** The prototype has not undergone a formal production
+    security audit and should not be used as the sole source of business
+    records.
+
+------------------------------------------------------------------------
+
+## Future Improvements
+
+The next development phase could focus on:
+
+-   More robust multilingual natural-language understanding.
+-   Improved customer-name recognition and transliteration.
+-   Secure authentication and multiple shop-owner accounts.
+-   Cloud database integration, synchronisation and automated backups.
+-   WhatsApp Business API integration for supported automated messaging.
+-   More comprehensive transaction history and rollback mechanisms.
+-   Better forecasting using larger real-world datasets and evaluation.
+-   Supplier management and purchase-order generation.
+-   Additional Indian languages.
+-   Field testing with actual small retailers to evaluate usability and
+    speech recognition accuracy.
+
+------------------------------------------------------------------------
+
+## Built With Purpose
+
+Bolo Khata explores how voice interfaces and multilingual AI can make
+everyday digital tools more accessible to small businesses.
+
+The goal is simple: reduce the effort of maintaining everyday shop
+records without forcing shopkeepers to change the way they naturally
+communicate.
+
+**Built by Samriddhi Bhowmik**
+
+Great Indian AI Internship Challenge
+
+**Powered by Gnani AI Prisma and Timbre.**
+
+------------------------------------------------------------------------
+
+## Acknowledgements
+
+Thanks to Gnani AI for providing the speech technologies used in this
+project.
+
+If you find the project interesting, consider starring the repository or
+sharing your feedback.
+
+**Repository:** https://github.com/Sam-03-netizen/bolo_khata

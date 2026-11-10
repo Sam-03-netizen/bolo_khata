@@ -1,37 +1,59 @@
-# Bolo Khata: solution pitch
+# Bolo Khata --- Final Project Pitch
 
-**A voice-first smart-shop assistant for small shopkeepers, in Hindi and Bengali.**
-By Samriddhi Bhowmik · Great Indian AI Internship Challenge · built on Gnani AI's Prisma and Timbre
+## A Voice-First Smart Shop Assistant for India's Small Retailers
 
-## The problem
-Small shopkeepers juggle three things while serving customers: **bills, udhaar (credit) and stock**. Most keep them in paper notebooks and in memory. Entries get missed, balances get disputed, awkward payment reminders get delayed, and nobody notices an item is running out until it is gone. Typing into an app is slow with busy hands, and most apps assume English.
+Small retailers manage customer credit, billing and inventory every day.
+Many still depend on handwritten notebooks and manual calculations,
+making it difficult to keep records consistent while serving customers.
 
-## The solution
-Bolo Khata lets the shopkeeper simply *say* what happened. One spoken sentence updates billing, credit, stock and the customer's WhatsApp message together:
+Bolo Khata addresses this problem through a bilingual voice-first
+interface supporting Bengali and Hindi.
 
-> "রমেশকে ৩টা সাবানের ৫০০ টাকার বিল বানাও, ৩০০ টাকা দিয়েছে"
+A shopkeeper can simply speak a transaction. For example:
 
-Soap stock goes from 10 to 7, a ₹500 bill is saved, the unpaid ₹200 is recorded as Ramesh's Baki, a WhatsApp bill (total ₹500, paid ₹300, balance ₹200) is ready to send, and the result is spoken back.
+> রমেশকে ৩টা সাবানের ৫০০ টাকার বিল বানাও, ৩০০ টাকা দিয়েছে।
 
-## How it uses Gnani's models
-- **Prisma (speech to text):** understands Hindi and Bengali speech. Customer and product names are sent as hints, so names are misheard less often.
-- **Timbre (text to speech):** answers in the shopkeeper's language, with a Hindi voice and a Bengali voice.
+Bolo Khata processes the command, generates the bill, updates inventory,
+records the ₹200 outstanding balance in the customer's khata and
+prepares a WhatsApp bill. The application also responds using
+synthesized speech.
 
-## What it does
-- **Khata (Baki):** credit, repayments, undo / redo / restore, WhatsApp reminders, and a saved number per customer.
-- **Shop:** products and prices, stock that updates on every bill and purchase, and low-stock warnings.
-- **Records:** sales reports for today, 7 days and 30 days; purchase, sales and stock records downloadable as CSV.
-- **Ask the shop:** "How much soap is left?" gives stock, last-30-day sales, days of stock left, and what to order and when.
-- **Demand forecast:** next-7-day sales per product and category, from recent trend plus weekday pattern. It is a statistical estimate, not a neural network.
-- **Hands-free mode** that learns background noise.
+## What Bolo Khata Offers
 
-## Impact
-Fewer forgotten udhaar entries, faster and clearer billing, polite reminders sent in seconds, and earlier restocking, all in the shopkeeper's own language and without typing.
+-   Customer credit and repayment management.
+-   Voice-based billing and inventory updates.
+-   WhatsApp-ready bills and payment reminders.
+-   Sales reports and stock monitoring.
+-   Statistical demand forecasting.
 
-## Honest limits
-Sentences are understood by keyword rules (say the customer's name first). Names are matched within one script. The forecast needs sales history, so a clearly labelled sample-data mode is provided for demos. WhatsApp opens with the message ready and the shopkeeper taps Send. Accuracy in a noisy shop has not been formally measured. This is a single-shop local demo without login.
+## Technology
 
-## Next steps
-Login and a cloud database, the WhatsApp Business API, supplier orders from the forecast, and more languages.
+The application uses:
 
-**Stack:** Python, Flask, SQLite, plain JavaScript. **Code and setup:** see [README.md](README.md).
+-   **Gnani AI Prisma** for speech-to-text.
+-   **Gnani AI Timbre** for text-to-speech.
+-   **Python and Flask** for backend processing.
+-   **SQLite** for data storage.
+-   **HTML, CSS and JavaScript** for the frontend.
+
+## Why It Matters
+
+For many small retailers, digital tools can be difficult to adopt when
+they require extensive typing or unfamiliar workflows. Bolo Khata
+explores a more natural interaction model: allowing shopkeepers to
+manage everyday records in languages they already speak.
+
+## Current Status and Next Steps
+
+Bolo Khata is a working prototype, not a production-ready retail
+platform. Its next stage focuses on stronger multilingual understanding,
+secure cloud storage, automated WhatsApp integration and real-world
+retailer testing.
+
+**Bolo Khata --- Less manual bookkeeping. More accessible shop
+management.**
+
+**Built by Samriddhi Bhowmik**\
+Great Indian AI Internship Challenge
+
+**Repository:** https://github.com/Sam-03-netizen/bolo_khata
