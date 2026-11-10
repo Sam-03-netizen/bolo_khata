@@ -1,0 +1,452 @@
+{% raw %}<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bolo Khata</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;800&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f2f6fb;--rule:#c8d6e8;--ink:#14233b;--red:#c2362b;--green:#1d7a4b;--muted:#5b6b82}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Mukta','Hind Siliguri','Noto Sans Devanagari','Noto Sans Bengali',system-ui,sans-serif;font-size:18px}
+main{max-width:1000px;margin:0 auto;padding:24px 16px;display:grid;gap:28px;grid-template-columns:1fr 1.1fr;align-items:start}
+main.wide{grid-template-columns:340px 1fr}
+@media(max-width:760px){main,main.wide{grid-template-columns:1fr}}
+.langs{display:inline-flex;border:1px solid var(--ink);border-radius:8px;overflow:hidden;margin-bottom:18px}
+.langs button{font:inherit;padding:6px 18px;border:0;background:transparent;color:var(--ink);cursor:pointer}
+.langs button[aria-pressed=true]{background:var(--ink);color:#fff}
+h1{font-size:44px;line-height:1.15;margin:0 0 4px;font-weight:800}
+.hint{color:var(--muted);margin:0 0 12px}
+details.eg{color:var(--muted);margin:0 0 18px;font-size:16px}
+details.eg summary{cursor:pointer;color:var(--ink)}
+#mic{width:112px;height:112px;border-radius:50%;border:0;background:var(--ink);color:#fff;font:inherit;font-weight:600;cursor:pointer}
+#mic.rec{background:var(--red);animation:pulse 1.2s infinite}
+#mic:disabled{opacity:.5;cursor:wait}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #3b82f6;outline-offset:3px}
+@keyframes pulse{50%{box-shadow:0 0 0 16px rgba(194,54,43,.18)}}
+@media(prefers-reduced-motion:reduce){ #mic.rec{animation:none} }
+#status{min-height:28px;margin:14px 0;color:var(--muted)}
+.said{margin:0 0 8px;color:var(--muted)}
+.reply{font-size:24px;font-weight:600;line-height:1.35;margin:0;white-space:pre-line}
+.err{color:var(--red)}
+form{display:flex;gap:8px;margin-top:28px}
+input,select{flex:1;min-width:0;padding:10px 12px;font:inherit;border:1px solid var(--rule);border-radius:6px;background:#fff}
+form button{padding:10px 16px;font:inherit;border:1px solid var(--ink);border-radius:6px;background:transparent;color:var(--ink);cursor:pointer}
+.tabs{display:flex;gap:6px;margin-bottom:12px}
+.tabs button{flex:1;font:inherit;padding:10px;border:1px solid var(--ink);border-radius:8px;background:transparent;color:var(--ink);cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--ink);color:#fff}
+.page{background:#fff repeating-linear-gradient(transparent 0 43px,var(--rule) 43px 44px);border:1px solid var(--rule);border-left:3px double var(--red);border-radius:4px;padding:0 20px 0 56px;min-height:440px;line-height:44px}
+.page header{display:flex;justify-content:space-between;font-weight:600;border-bottom:2px solid var(--red);background:#fff;margin:0 -20px 0 -56px;padding:0 20px 0 56px}
+.page ul{list-style:none;margin:0;padding:0}
+.page li{display:flex;justify-content:space-between}
+.owe{color:var(--red);font-weight:600}.clear{color:var(--green)}.empty{color:var(--muted)}
+.acts{display:flex;flex-wrap:wrap;gap:0 18px}
+.lk{display:block;margin:0;background:none;border:0;color:var(--muted);font:inherit;font-size:15px;line-height:44px;text-decoration:underline;cursor:pointer;padding:0}
+.lk[hidden],.wa[hidden]{display:none}
+.wa{display:inline-block;margin-top:12px;padding:10px 16px;border-radius:8px;background:#1d7a4b;color:#fff;text-decoration:none;font-weight:600}
+.hfrow{display:flex;align-items:center;gap:14px;margin-top:14px;flex-wrap:wrap}
+.hf{font:inherit;padding:8px 14px;border:1px solid var(--ink);border-radius:8px;background:transparent;color:var(--ink);cursor:pointer}
+.hf[aria-pressed=true]{background:var(--green);border-color:var(--green);color:#fff}
+#meter{width:140px;height:8px;background:var(--rule);border-radius:4px;overflow:hidden}
+#meter[hidden]{display:none}
+#meter i{display:block;height:100%;width:0;background:var(--green)}
+.ph{background:none;border:0;cursor:pointer;opacity:.35;font-size:15px;padding:0 6px}
+.ph.on{opacity:1}
+.shop h2{font-size:28px;margin:0 0 8px}.shop h3{margin:22px 0 6px;font-size:18px}
+.lowbar{color:var(--red);font-weight:600;margin:0 0 10px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.card{background:#fff;border:1px solid var(--rule);border-radius:8px;padding:10px 12px}
+.cl{color:var(--muted);font-size:14px}.cv{font-size:26px;font-weight:800}.cs{font-size:14px;color:var(--muted);line-height:1.3}
+.bars{display:flex;align-items:flex-end;gap:4px;height:70px;margin:10px 0}
+.bar{flex:1;height:100%;display:flex;align-items:flex-end;background:#e8eef6;border-radius:3px;overflow:hidden}
+.bar i{display:block;width:100%;background:var(--green)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.chip{border:1px solid var(--rule);background:#fff;border-radius:999px;padding:4px 12px;font-size:15px}
+.tw{overflow-x:auto;background:#fff;border:1px solid var(--rule);border-radius:6px}
+table{border-collapse:collapse;width:100%;min-width:520px}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--rule)}
+th{font-size:14px;color:var(--muted);font-weight:600}
+.lowrow td:nth-child(2),.reorder{color:var(--red);font-weight:600}
+.lk2{background:none;border:0;font:inherit;color:var(--ink);text-decoration:underline;cursor:pointer;padding:0}
+.addp{flex-wrap:wrap;margin-top:12px}
+.addp input,.addp select{flex:1 1 100px}
+.blist{list-style:none;margin:0;padding:0}.blist li{padding:6px 0;border-bottom:1px solid var(--rule);font-size:16px}
+</style>
+</head>
+<body>
+<main id="main">
+  <section>
+    <div class="langs" role="group" aria-label="Language">
+      <button type="button" data-lang="hi">हिन्दी</button><button type="button" data-lang="bn">বাংলা</button>
+    </div>
+    <h1 id="title"></h1>
+    <p class="hint" id="hint"></p>
+    <details class="eg"><summary id="egT"></summary>
+      <div id="eg"></div><div id="eg2"></div><div id="eg3"></div><div id="eg4"></div><div id="eg5"></div>
+    </details>
+    <button id="mic" type="button"></button>
+    <div class="hfrow"><button id="hf" class="hf" type="button" aria-pressed="false"></button><div id="meter" hidden><i id="lvl"></i></div></div>
+    <div id="status" role="status"></div>
+    <p class="said" id="said"></p>
+    <p class="reply" id="reply"></p>
+    <a id="wa" class="wa" target="_blank" rel="noopener" hidden></a>
+    <p class="said" id="note"></p>
+    <form id="typed">
+      <input id="t" autocomplete="off">
+      <button id="send"></button>
+    </form>
+  </section>
+  <div class="right">
+    <div class="tabs" role="tablist">
+      <button type="button" id="tabK" role="tab" aria-selected="true"></button>
+      <button type="button" id="tabS" role="tab" aria-selected="false"></button>
+    </div>
+    <section class="page" id="paneKhata">
+      <header><span id="given"></span><span id="recv"></span></header>
+      <ul id="list"></ul>
+      <div class="acts">
+        <button id="undo" class="lk" type="button"></button><button id="redo" class="lk" type="button" hidden></button>
+        <button id="reset" class="lk" type="button"></button><button id="restore" class="lk" type="button" hidden></button>
+      </div>
+    </section>
+    <section class="shop" id="paneShop" hidden>
+      <h2 id="shopT"></h2>
+      <p class="lowbar" id="lowbar"></p>
+      <h3 id="repT"></h3>
+      <div class="cards" id="cards"></div>
+      <div class="bars" id="bars"></div>
+      <h3 id="catT"></h3>
+      <div class="chips" id="chips"></div>
+      <div class="tw"><table>
+        <thead><tr><th id="hd1"></th><th id="hd2"></th><th id="hd3"></th><th id="hd4"></th><th></th></tr></thead>
+        <tbody id="ptab"></tbody>
+      </table></div>
+      <p class="said" id="fcnote"></p>
+      <button id="demo" class="lk" type="button"></button>
+      <form id="addp" class="addp">
+        <input id="f_name" required>
+        <select id="f_unit"><option value="kg"></option><option value="litre"></option><option value="packet"></option><option value="piece"></option></select>
+        <input id="f_price" type="number" min="0" step="any" required><input id="f_stock" type="number" min="0" step="any"><input id="f_low" type="number" min="0" step="any">
+        <button id="f_add"></button>
+      </form>
+      <h3 id="billsT"></h3>
+      <ul class="blist" id="blist"></ul>
+      <h3 id="purT"></h3>
+      <ul class="blist" id="plist"></ul>
+      <p class="said"><span id="csvT"></span>
+        <a class="lk2" href="/api/export/sales" id="csvs"></a> · <a class="lk2" href="/api/export/purchases" id="csvp"></a> ·
+        <a class="lk2" href="/api/export/stock" id="csvl"></a> · <a class="lk2" href="/api/export/khata" id="csvk"></a></p>
+    </section>
+  </div>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const T = {
+  hi: { title: "बोलो खाता", hint: "माइक दबाइए, बोलिए, फिर दोबारा दबाइए।", mic: "बोलिए", stop: "रुकिए", listen: "सुन रहा हूँ…", think: "समझ रहा हूँ…",
+        ph: "या यहाँ टाइप करें", send: "भेजें", given: "आज दिया ", recv: "आज मिला ", said: "सुना: ", none: "अभी कोई हिसाब नहीं।",
+        perm: "माइक की अनुमति दीजिए।", bad: "कुछ गड़बड़ हुई", clear: "खाता हटाएँ", sure: "पूरा खाता हटाएँ? बाद में “वापस लाएँ” से लौटा सकते हैं।",
+        undo: "↶ पिछली एंट्री रद्द", redo: "↷ फिर से जोड़ें", restore: "हटाया खाता वापस लाएँ", wa: "WhatsApp पर भेजें",
+        hf: "🎧 हैंड्स-फ़्री", hfon: "सुन रहा हूँ… बोलते जाइए", addphone: "WhatsApp नंबर जोड़ें", phoneq: "WhatsApp नंबर (10 अंक):",
+        nophone: "सीधे भेजने के लिए नाम के पास 📞 दबाकर नंबर सेव करें।", badphone: "सही नंबर डालिए",
+        egT: "बोलकर देखें (उदाहरण)", eg: "उधार: “रमेश को पाँच सौ रुपये उधार दिया”", eg2: "रिमाइंडर: “मीरा को रिमाइंडर भेजो”",
+        eg3: "बिल: “रमेश को 2 किलो चावल और 1 लीटर तेल का बिल बनाओ”",
+        eg4: "आंशिक भुगतान: “रमेश को 3 साबुन का बिल 500 रुपये, 300 रुपये दिए”", eg5: "पूछें: “साबुन का स्टॉक कितना है”, “इस महीने की बिक्री कितनी”",
+        tabK: "खाता (बाकी)", tabS: "दुकान (माल व बिल)", shop: "दुकान का सामान", hd1: "सामान", hd2: "स्टॉक", hd3: "दाम", hd4: "अगले 7 दिन (अनुमान)",
+        lowwarn: "स्टॉक कम:", days: "दिन चलेगा", order: "मंगाएँ", addstock: "स्टॉक जोड़ें", pq_stock: "कितना स्टॉक जोड़ा?",
+        pq_cost: "कुल खरीद कीमत ₹ (खाली छोड़ सकते हैं):", pq_price: "नया दाम (₹):", pname: "सामान का नाम", pprice: "दाम ₹", pstock: "स्टॉक",
+        plow: "कम होने पर चेतावनी", padd: "जोड़ें", billsT: "हाल के बिल", demoOn: "डेमो बिक्री डेटा डालें", demoOff: "डेमो डेटा हटाएँ",
+        cats: "अगले 7 दिन की बिक्री का अनुमान (₹)", fcnote: "अनुमान आपकी पिछली बिक्री और हफ़्ते के पैटर्न से निकाला जाता है। यह गणित पर आधारित अनुमान है, गारंटी नहीं।",
+        repT: "बिक्री रिपोर्ट", r_day: "आज", r_week: "पिछले 7 दिन", r_month: "पिछले 30 दिन", r_bills: "बिल", r_got: "मिले", r_owed: "बाकी", r_top: "सबसे ज़्यादा:",
+        purT: "माल की खरीद", csvT: "रिकॉर्ड डाउनलोड (Excel):", csv_sales: "बिक्री", csv_purch: "खरीद", csv_stock: "स्टॉक लॉग", csv_khata: "खाता" },
+  bn: { title: "বলো খাতা", hint: "মাইক চাপুন, বলুন, তারপর আবার চাপুন।", mic: "বলুন", stop: "থামুন", listen: "শুনছি…", think: "বুঝছি…",
+        ph: "অথবা এখানে লিখুন", send: "পাঠান", given: "আজ দিয়েছি ", recv: "আজ পেয়েছি ", said: "শুনলাম: ", none: "এখনও কোনো হিসাব নেই।",
+        perm: "মাইকের অনুমতি দিন।", bad: "কিছু একটা গড়বড় হয়েছে", clear: "খাতা সরান", sure: "পুরো খাতা সরাবেন? পরে “ফিরিয়ে আনুন” দিয়ে আবার পাবেন।",
+        undo: "↶ শেষ এন্ট্রি বাতিল", redo: "↷ আবার যোগ করুন", restore: "সরানো খাতা ফিরিয়ে আনুন", wa: "WhatsApp-এ পাঠান",
+        hf: "🎧 হ্যান্ডস-ফ্রি", hfon: "শুনছি… বলতে থাকুন", addphone: "WhatsApp নম্বর যোগ করুন", phoneq: "WhatsApp নম্বর (১০ সংখ্যা):",
+        nophone: "সরাসরি পাঠাতে নামের পাশে 📞 চেপে নম্বর সেভ করুন।", badphone: "সঠিক নম্বর দিন",
+        egT: "বলে দেখুন (উদাহরণ)", eg: "ধার: “রমেশকে পাঁচশো টাকা ধার দিলাম”", eg2: "রিমাইন্ডার: “মীরাকে রিমাইন্ডার পাঠাও”",
+        eg3: "বিল: “রমেশকে ২ কেজি চাল আর ১ লিটার তেলের বিল বানাও”",
+        eg4: "আংশিক টাকা: “রমেশকে ৩টা সাবানের ৫০০ টাকার বিল, ৩০০ টাকা দিয়েছে”", eg5: "জিজ্ঞাসা: “সাবানের স্টক কত”, “এই মাসের বিক্রি কত”",
+        tabK: "খাতা (বাকি)", tabS: "দোকান (মাল ও বিল)", shop: "দোকানের মাল", hd1: "পণ্য", hd2: "স্টক", hd3: "দাম", hd4: "আগামী ৭ দিন (অনুমান)",
+        lowwarn: "স্টক কম:", days: "দিন চলবে", order: "আনুন", addstock: "স্টক যোগ করুন", pq_stock: "কতটা স্টক যোগ হলো?",
+        pq_cost: "মোট কেনার দাম ₹ (ফাঁকা রাখা যায়):", pq_price: "নতুন দাম (₹):", pname: "পণ্যের নাম", pprice: "দাম ₹", pstock: "স্টক",
+        plow: "কম হলে সতর্ক", padd: "যোগ করুন", billsT: "সাম্প্রতিক বিল", demoOn: "ডেমো বিক্রির ডেটা দিন", demoOff: "ডেমো ডেটা সরান",
+        cats: "আগামী ৭ দিনের বিক্রির অনুমান (₹)", fcnote: "আপনার আগের বিক্রি আর সপ্তাহের ধরন থেকে অনুমান করা হয়। এটা হিসাব-ভিত্তিক অনুমান, গ্যারান্টি নয়।",
+        repT: "বিক্রির রিপোর্ট", r_day: "আজ", r_week: "গত ৭ দিন", r_month: "গত ৩০ দিন", r_bills: "বিল", r_got: "পেয়েছেন", r_owed: "বাকি", r_top: "সেরা:",
+        purT: "মাল কেনার হিসাব", csvT: "রেকর্ড ডাউনলোড (Excel):", csv_sales: "বিক্রি", csv_purch: "কেনা", csv_stock: "স্টক লগ", csv_khata: "খাতা" }
+};
+const UN = { kg: ["কেজি", "किलो"], litre: ["লিটার", "लीटर"], packet: ["প্যাকেট", "पैकेट"], piece: ["পিস", "पीस"] };
+const CT = { staples: ["নিত্যপ্রয়োজনীয়", "रोज़मर्रा"], dairy: ["দুধ-ডিম", "दूध-अंडे"], snacks: ["চা-নাস্তা", "चाय-नाश्ता"], care: ["সাবান-যত্ন", "साबुन-देखभाल"] };
+const SHOPI = ["bill", "restock", "stock", "stock_low", "report"], KHI = ["credit", "payment", "query", "undo", "remind"];
+const rupees = n => "₹" + Math.round(n).toLocaleString("en-IN");
+const el = (t, x, c) => { const e = document.createElement(t); if (x !== undefined) e.textContent = x; if (c) e.className = c; return e; };
+const num = x => (+x).toFixed(2).replace(/\.?0+$/, "");
+let lang = "hi", recorder, chunks = [], stopTimer, state = { people: [], today: { given: 0, received: 0 } };
+try { lang = localStorage.getItem("lang") || "hi"; } catch (e) {}
+const L = () => T[lang];
+const pn = p => lang === "bn" ? p.name_bn : p.name_hi;
+const arrow = { up: "↑", down: "↓", flat: "→" };
+
+function showTab(n) {
+  $("paneKhata").hidden = n !== "khata"; $("paneShop").hidden = n !== "shop";
+  $("tabK").setAttribute("aria-selected", n === "khata"); $("tabS").setAttribute("aria-selected", n === "shop");
+  $("main").classList.toggle("wide", n === "shop");
+}
+$("tabK").onclick = () => showTab("khata"); $("tabS").onclick = () => showTab("shop");
+
+function render(d) {
+  state = d; $("restore").hidden = !d.archived; $("redo").hidden = !d.undone;
+  if (d.shop) renderShop(d.shop);
+  $("given").textContent = L().given + rupees(d.today.given);
+  $("recv").textContent = L().recv + rupees(d.today.received);
+  const ul = $("list"); ul.textContent = "";
+  if (!d.people.length) { ul.append(el("li", L().none, "empty")); return; }
+  d.people.forEach(p => {
+    const li = el("li"), a = el("span", p.name), b = el("span", p.balance > 0 ? rupees(p.balance) : "✓", p.balance > 0 ? "owe" : "clear");
+    const ph = el("button", "📞", "ph" + (p.phone ? " on" : "")), left = el("span");
+    ph.type = "button"; ph.title = p.phone ? "+" + p.phone : L().addphone; ph.onclick = () => setPhone(p); left.append(a, ph);
+    li.append(left, b); ul.append(li);
+  });
+}
+
+function setMic(rec) { $("mic").textContent = rec ? L().stop : L().mic; $("mic").classList.toggle("rec", rec); }
+
+function applyLang() {
+  const t = L(), i = lang === "bn" ? 0 : 1;
+  document.documentElement.lang = lang;
+  document.querySelectorAll(".langs button").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
+  ["title", "hint", "egT", "eg", "eg2", "eg3", "eg4", "eg5", "tabK", "tabS", "shop", "hd1", "hd2", "hd3", "hd4", "billsT", "fcnote", "repT", "purT", "csvT"]
+    .forEach(k => { const e = $(k === "shop" ? "shopT" : k); if (e) e.textContent = t[k]; });
+  $("catT").textContent = t.cats; $("t").placeholder = t.ph; $("send").textContent = t.send; $("reset").textContent = t.clear; $("hf").textContent = t.hf;
+  $("undo").textContent = t.undo; $("redo").textContent = t.redo; $("restore").textContent = t.restore;
+  $("f_name").placeholder = t.pname; $("f_price").placeholder = t.pprice; $("f_stock").placeholder = t.pstock; $("f_low").placeholder = t.plow; $("f_add").textContent = t.padd;
+  $("csvs").textContent = t.csv_sales; $("csvp").textContent = t.csv_purch; $("csvl").textContent = t.csv_stock; $("csvk").textContent = t.csv_khata;
+  document.querySelectorAll("#f_unit option").forEach(o => o.textContent = UN[o.value][i]);
+  if (!recorder || recorder.state !== "recording") setMic(false);
+  render(state);
+}
+document.querySelectorAll(".langs button").forEach(b => b.onclick = () => {
+  lang = b.dataset.lang; try { localStorage.setItem("lang", lang); } catch (e) {}
+  $("said").textContent = ""; $("reply").textContent = ""; $("wa").hidden = true; $("note").textContent = ""; applyLang();
+});
+
+function show(d) {
+  if (SHOPI.includes(d.intent)) showTab("shop"); else if (KHI.includes(d.intent)) showTab("khata");
+  $("said").textContent = d.transcript ? L().said + d.transcript : "";
+  $("reply").textContent = d.reply; $("reply").className = "reply";
+  const wa = $("wa"); if (d.wa) { wa.href = d.wa; wa.textContent = L().wa; wa.hidden = false; } else wa.hidden = true;
+  render(d);
+  $("note").textContent = d.wa && !d.wa_direct ? L().nophone : "";
+  return d.audio ? new Promise(res => { const a = new Audio("data:audio/mpeg;base64," + d.audio); a.onended = a.onerror = () => res(); a.play().catch(() => res()); }) : Promise.resolve();
+}
+function fail(msg) { $("reply").textContent = msg; $("reply").className = "reply err"; }
+
+// Browsers record WebM; Gnani wants WAV, so convert to 16 kHz mono WAV here.
+async function toWav(blob) {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const dec = await ctx.decodeAudioData(await blob.arrayBuffer()); ctx.close();
+  const off = new OfflineAudioContext(1, Math.ceil(dec.duration * 16000), 16000);
+  const src = off.createBufferSource(); src.buffer = dec; src.connect(off.destination); src.start();
+  return wavFrom((await off.startRendering()).getChannelData(0));
+}
+function wavFrom(pcm) {
+  const v = new DataView(new ArrayBuffer(44 + pcm.length * 2));
+  const w = (o, s) => [...s].forEach((c, i) => v.setUint8(o + i, c.charCodeAt(0)));
+  w(0, "RIFF"); v.setUint32(4, 36 + pcm.length * 2, true); w(8, "WAVEfmt ");
+  v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+  v.setUint32(24, 16000, true); v.setUint32(28, 32000, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true);
+  w(36, "data"); v.setUint32(40, pcm.length * 2, true);
+  pcm.forEach((s, i) => v.setInt16(44 + i * 2, Math.max(-1, Math.min(1, s)) * 0x7fff, true));
+  return new Blob([v], { type: "audio/wav" });
+}
+
+async function send(blob) {
+  $("mic").disabled = true; $("status").textContent = L().think;
+  try {
+    const fd = new FormData(); fd.append("audio", await toWav(blob), "clip.wav"); fd.append("lang", lang);
+    const r = await fetch("/api/voice", { method: "POST", body: fd }), d = await r.json();
+    r.ok ? show(d) : fail(d.error || L().bad);
+  } catch (e) { fail(L().bad + ": " + e.message); }
+  $("mic").disabled = false; $("status").textContent = "";
+}
+
+$("mic").onclick = async () => {
+  if (recorder && recorder.state === "recording") { recorder.stop(); return; }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    chunks = []; recorder = new MediaRecorder(stream);
+    recorder.ondataavailable = e => chunks.push(e.data);
+    recorder.onstop = () => {
+      clearTimeout(stopTimer); stream.getTracks().forEach(t => t.stop());
+      setMic(false); send(new Blob(chunks, { type: recorder.mimeType }));
+    };
+    recorder.start(); setMic(true); $("status").textContent = L().listen;
+    stopTimer = setTimeout(() => recorder.stop(), 25000); // API limit is 30 s
+  } catch (e) { fail(L().perm); }
+};
+
+$("typed").onsubmit = async e => {
+  e.preventDefault(); const text = $("t").value.trim(); if (!text) return;
+  const r = await fetch("/api/text", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text, lang }) });
+  show(await r.json()); $("t").value = "";
+};
+
+async function change(url) {
+  render(await (await fetch(url, { method: "POST" })).json());
+  $("said").textContent = ""; $("reply").textContent = ""; $("wa").hidden = true; $("note").textContent = "";
+}
+$("undo").onclick = () => change("/api/undo");
+$("redo").onclick = () => change("/api/redo");
+$("restore").onclick = () => change("/api/restore");
+$("reset").onclick = () => { if (confirm(L().sure)) change("/api/reset"); };
+
+// ---- Hands-free: press once, then just keep talking. ----
+// Tuning for noisy places: raise ratio if noise keeps triggering it; raise endMs if it cuts you off.
+const HF = { minTh: 0.02, ratio: 2.5, startMs: 150, endMs: 1100, minSpeechMs: 400, maxMs: 25000 };
+const hf = { on: false };
+
+// Decides, frame by frame, when a sentence starts and ends.
+// The background level is the quietest 20% of the last 10 seconds, so steady shop noise is learned and ignored.
+function vad(h, rms, ms) {
+  h.hist.push(rms); if (h.hist.length > Math.ceil(10000 / ms)) h.hist.shift();
+  if (h.hist.length < Math.ceil(1000 / ms)) return null;  // first second: just listen to the room
+  const sorted = h.hist.slice().sort((x, y) => x - y), floor = sorted[Math.floor(sorted.length * 0.2)];
+  const th = Math.max(HF.minTh, floor * HF.ratio);
+  if (!h.talking) {
+    if (rms > th) {
+      h.loudMs += ms;
+      if (h.loudMs >= HF.startMs) { h.talking = true; h.quiet = 0; h.speechMs = h.loudMs; h.totalMs = h.loudMs; return "start"; }
+    } else h.loudMs = 0;
+    return null;
+  }
+  h.totalMs += ms;
+  if (rms > th) { h.quiet = 0; h.speechMs += ms; } else h.quiet += ms;
+  if (h.quiet >= HF.endMs || h.totalMs >= HF.maxMs) { h.talking = false; h.loudMs = 0; return h.speechMs >= HF.minSpeechMs ? "end" : "drop"; }
+  return null;
+}
+function to16k(f, rate) {  // only needed if the browser would not give us a 16 kHz context
+  if (rate === 16000) return f;
+  const r = rate / 16000, o = new Float32Array(Math.floor(f.length / r));
+  for (let i = 0; i < o.length; i++) o[i] = f[Math.floor(i * r)];
+  return o;
+}
+async function hfStart() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
+    let ctx; try { ctx = new AudioContext({ sampleRate: 16000 }); } catch (e) { ctx = new AudioContext(); }
+    const src = ctx.createMediaStreamSource(stream), proc = ctx.createScriptProcessor(2048, 1, 1);
+    const h = Object.assign(hf, { on: true, ctx, stream, proc, src, hist: [], talking: false, busy: false,
+                                  loudMs: 0, quiet: 0, speechMs: 0, totalMs: 0, pre: [], utt: [] });
+    proc.onaudioprocess = e => {
+      const x = new Float32Array(e.inputBuffer.getChannelData(0));
+      let s = 0; for (let i = 0; i < x.length; i++) s += x[i] * x[i];
+      const rms = Math.sqrt(s / x.length), ms = 1000 * x.length / ctx.sampleRate;
+      $("lvl").style.width = Math.min(100, rms * 600) + "%";
+      if (h.busy) return;  // ignore the mic while thinking and while the reply is playing
+      const was = h.talking;
+      if (!was) { h.pre.push(x); if (h.pre.length > Math.ceil(400 / ms)) h.pre.shift(); }  // keep 0.4 s before speech starts
+      const ev = vad(h, rms, ms);
+      if (ev === "start") { h.utt = h.pre.slice(); h.pre = []; $("status").textContent = L().listen; }
+      else if (was) h.utt.push(x);
+      if (ev === "end") hfSend();
+      else if (ev === "drop") { h.utt = []; $("status").textContent = L().hfon; }
+    };
+    src.connect(proc); proc.connect(ctx.destination);
+    $("hf").setAttribute("aria-pressed", "true"); $("mic").disabled = true; $("meter").hidden = false;
+    $("status").textContent = L().hfon;
+  } catch (e) { hf.on = false; fail(L().perm); }
+}
+function hfStop() {
+  hf.on = false;
+  try { hf.proc.disconnect(); hf.src.disconnect(); hf.stream.getTracks().forEach(t => t.stop()); hf.ctx.close(); } catch (e) {}
+  $("hf").setAttribute("aria-pressed", "false"); $("mic").disabled = false; $("meter").hidden = true; $("status").textContent = "";
+}
+async function hfSend() {
+  const h = hf; h.busy = true; $("status").textContent = L().think;
+  const pcm = new Float32Array(h.utt.reduce((s, c) => s + c.length, 0)); let o = 0;
+  h.utt.forEach(c => { pcm.set(c, o); o += c.length; }); h.utt = [];
+  try {
+    const fd = new FormData(); fd.append("audio", wavFrom(to16k(pcm, h.ctx.sampleRate)), "clip.wav"); fd.append("lang", lang);
+    const r = await fetch("/api/voice", { method: "POST", body: fd }), d = await r.json();
+    if (r.ok) { if (!d.transcript || d.intent === "unknown") d.audio = null; await show(d); }  // stay quiet for shop chatter
+    else fail(d.error || L().bad);
+  } catch (e) { fail(L().bad + ": " + e.message); }
+  await new Promise(res => setTimeout(res, 300));
+  if (hf.on) { h.busy = false; h.loudMs = 0; $("status").textContent = L().hfon; }
+}
+$("hf").onclick = () => hf.on ? hfStop() : hfStart();
+
+async function setPhone(p) {
+  const v = prompt(p.name + " — " + L().phoneq, p.phone ? p.phone.replace(/^91/, "") : "");
+  if (v === null) return;
+  const r = await fetch("/api/phone", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: p.name, phone: v }) });
+  r.ok ? render(await r.json()) : alert(L().badphone);
+}
+
+// ---- Shop: products, stock, bills, reports, forecast ----
+function renderShop(s) {
+  const i = lang === "bn" ? 0 : 1, fc = {}, byId = {};
+  s.forecast.products.forEach(f => fc[f.id] = f); s.products.forEach(p => byId[p.id] = p);
+  const low = s.products.filter(p => p.stock <= p.low);
+  $("lowbar").textContent = low.length ? "⚠ " + L().lowwarn + " " + low.map(p => pn(p) + " (" + num(p.stock) + " " + UN[p.unit][i] + ")").join(", ") : "";
+
+  const cards = $("cards"); cards.textContent = "";
+  [["day", L().r_day], ["week", L().r_week], ["month", L().r_month]].forEach(([k, label]) => {
+    const r = s.reports[k], c = el("div", undefined, "card");
+    c.append(el("div", label, "cl"), el("div", rupees(r.revenue), "cv"),
+      el("div", r.bills + " " + L().r_bills + " · " + L().r_got + " " + rupees(r.cash) + " · " + L().r_owed + " " + rupees(r.credit), "cs"));
+    if (r.top.length) c.append(el("div", L().r_top + " " + r.top.map(x => byId[x.id] ? pn(byId[x.id]) : "").join(", "), "cs"));
+    cards.append(c);
+  });
+  const bars = $("bars"); bars.textContent = "";
+  const mx = Math.max(1, ...s.reports.daily.map(d => d.revenue));
+  s.reports.daily.forEach(d => { const b = el("div", undefined, "bar"), f = el("i"); f.style.height = Math.max(2, 100 * d.revenue / mx) + "%"; b.title = d.date + " — " + rupees(d.revenue); b.append(f); bars.append(b); });
+
+  const chips = $("chips"); chips.textContent = "";
+  s.forecast.cats.forEach(c => chips.append(el("span", (CT[c.cat] ? CT[c.cat][i] : c.cat) + " " + rupees(c.value) + " " + arrow[c.trend], "chip")));
+
+  const tb = $("ptab"); tb.textContent = "";
+  s.products.forEach(p => {
+    const f = fc[p.id] || {}, tr = el("tr"), u = UN[p.unit][i];
+    if (p.stock <= p.low) tr.className = "lowrow";
+    const price = el("td"), pb = el("button", "₹" + num(p.price), "lk2"); pb.type = "button"; pb.onclick = () => setPrice(p); price.append(pb);
+    const fcell = el("td", f.week ? "~" + num(Math.round(f.week * 10) / 10) + " " + u + " " + arrow[f.trend] + (f.days_left != null ? " · " + Math.round(f.days_left) + " " + L().days : "") + (f.reorder && f.suggest ? " · " + L().order + " " + f.suggest : "") : "—");
+    if (f.reorder) fcell.className = "reorder";
+    const act = el("td"), ab = el("button", "＋", "lk2"); ab.type = "button"; ab.title = L().addstock; ab.onclick = () => addStock(p); act.append(ab);
+    tr.append(el("td", pn(p)), el("td", num(p.stock) + " " + u), price, fcell, act); tb.append(tr);
+  });
+
+  const bl = $("blist"); bl.textContent = "";
+  s.bills.forEach(b => {
+    const li = el("li", "#" + b.id + " · " + b.ts.slice(0, 10) + " · " + (b.customer || "—") + " · " + rupees(b.total) + (b.paid < b.total ? " (" + L().r_owed + " " + rupees(b.total - b.paid) + ")" : "") + "  "), wb = el("button", "WhatsApp", "lk2");
+    wb.type = "button";
+    wb.onclick = async () => { const r = await (await fetch("/api/bill/" + b.id + "?lang=" + lang)).json(); window.open(r.wa, "_blank"); };
+    li.append(wb); bl.append(li);
+  });
+  const pl = $("plist"); pl.textContent = "";
+  s.purchases.forEach(x => { const p = byId[x.product_id]; pl.append(el("li", x.ts.slice(0, 10) + " · " + (p ? pn(p) + " " + num(x.qty) + " " + UN[p.unit][i] : "?") + (x.cost ? " · " + rupees(x.cost) : ""))); });
+  $("demo").textContent = s.demo ? L().demoOff : L().demoOn;
+}
+async function shopPost(url, body) {
+  const r = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  r.ok ? render(await r.json()) : alert(L().bad);
+}
+function addStock(p) {
+  const v = prompt(pn(p) + " — " + L().pq_stock); if (v === null || v.trim() === "" || !(+v > 0)) return;
+  const c = prompt(pn(p) + " — " + L().pq_cost);
+  shopPost("/api/stock", { id: p.id, delta: +v, cost: c && +c > 0 ? +c : null });
+}
+function setPrice(p) { const v = prompt(pn(p) + " — " + L().pq_price, p.price); if (v !== null && v.trim() !== "" && +v >= 0) shopPost("/api/price", { id: p.id, price: +v }); }
+$("addp").onsubmit = e => {
+  e.preventDefault();
+  shopPost("/api/product", { name: $("f_name").value, unit: $("f_unit").value, price: $("f_price").value, stock: $("f_stock").value || 0, low: $("f_low").value || 0 });
+  e.target.reset();
+};
+$("demo").onclick = () => shopPost("/api/demo", { on: !(state.shop && state.shop.demo) });
+
+applyLang();
+fetch("/api/ledger").then(r => r.json()).then(render);
+</script>
+</body>
+</html>{% endraw %}

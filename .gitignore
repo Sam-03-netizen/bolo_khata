@@ -1,0 +1,4 @@
+.env
+venv/
+khata.db
+__pycache__/

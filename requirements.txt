@@ -1,0 +1,4 @@
+flask
+requests
+python-dotenv
+num2words
