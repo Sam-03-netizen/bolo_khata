@@ -20,7 +20,7 @@ Prisma Speech-to-Text and Timbre Text-to-Speech models.
 
 ## Demo
 
-🎥 **Project Demo:** \[Add your demo video link here\]
+🎥 **Project Demo:** https://drive.google.com/file/d/13ZguTU3lj5aJykT5ASC7MoqsWi9JShdr/view?usp=sharing
 
 💻 **Source Code:** https://github.com/Sam-03-netizen/bolo_khata
 
